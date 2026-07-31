@@ -14,8 +14,7 @@ import { Input } from "@/components/ui/input";
 import { LoginFormData, loginSchema } from "@/schemas/auth.schema";
 import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
-import { useRouter } from "next/router";
+import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import { loginAction } from "../_action/login";
 
