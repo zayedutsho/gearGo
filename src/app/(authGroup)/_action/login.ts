@@ -2,6 +2,7 @@
 
 import axiosInstance from "@/lib/axios";
 import { LoginFormData } from "@/schemas/auth.schema";
+import axios from "axios";
 import { cookies } from "next/headers";
 
 export const loginAction = async (payload: LoginFormData) => {
@@ -30,12 +31,15 @@ export const loginAction = async (payload: LoginFormData) => {
 
     // 3. Return result back to client
     return data;
-  } catch (error: unknown) {
-    console.error("Login failed:", error);
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return error.response?.data;
+    }
+
     return {
       success: false,
       statusCode: 500,
-      message: "Login request failed",
+      message: "Something went wrong",
       data: null,
     };
   }

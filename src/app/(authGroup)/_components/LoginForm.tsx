@@ -34,6 +34,10 @@ export default function LoginForm() {
   const loginMutation = useMutation({
     mutationFn: loginAction,
     onSuccess: (result) => {
+      if (!result.success) {
+        toast.error(result.message);
+        return;
+      }
       toast.success(result.message);
 
       if (redirectTo) {

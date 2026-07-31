@@ -2,7 +2,7 @@ import { jwtDecode } from "jwt-decode";
 import { NextRequest, NextResponse } from "next/server";
 
 const PUBLIC_ROUTES = ["/"];
-const AUTH_ROUTES = ["/login", "/register"];
+const AUTH_ROUTES = ["/login", "/register", "/"];
 
 type JwtPayload = {
   id: string;
@@ -11,6 +11,8 @@ type JwtPayload = {
 };
 
 export async function proxy(request: NextRequest) {
+  console.log("🔥 Proxy executed:", request.nextUrl.pathname);
+
   const { pathname } = request.nextUrl;
 
   const accessToken = request.cookies.get("accessToken")?.value;
@@ -42,6 +44,7 @@ export async function proxy(request: NextRequest) {
 
   try {
     decoded = jwtDecode<JwtPayload>(accessToken);
+    console.log(jwtDecode(accessToken));
   } catch {
     const response = NextResponse.redirect(new URL("/login", request.url));
 
@@ -55,11 +58,11 @@ export async function proxy(request: NextRequest) {
   if (isAuthRoute) {
     switch (decoded.role) {
       case "ADMIN":
-        return NextResponse.redirect(new URL("/admin", request.url));
+        return NextResponse.redirect(new URL("/admin-dashboard", request.url));
 
       case "PROVIDER":
         return NextResponse.redirect(
-          new URL("/provider/dashboard", request.url),
+          new URL("/provider-dashboard", request.url),
         );
 
       default:
@@ -68,11 +71,14 @@ export async function proxy(request: NextRequest) {
   }
 
   // Role protection
-  if (pathname.startsWith("/admin") && decoded.role !== "ADMIN") {
+  if (pathname.startsWith("/admin-dashboard") && decoded.role !== "ADMIN") {
     return NextResponse.redirect(new URL("/403", request.url));
   }
 
-  if (pathname.startsWith("/provider") && decoded.role !== "PROVIDER") {
+  if (
+    pathname.startsWith("/provider-dashboard") &&
+    decoded.role !== "PROVIDER"
+  ) {
     return NextResponse.redirect(new URL("/403", request.url));
   }
 
