@@ -9,151 +9,126 @@ import { toast } from "sonner";
 import { registerAction } from "../_action/register";
 
 import { Button } from "@/components/ui/button";
-import {
-  Field,
-  FieldError,
-  FieldGroup,
-  FieldLabel,
-} from "@/components/ui/field";
+import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { LockKeyhole, Mail, Tent } from "lucide-react";
 
 const RegisterForm = () => {
   const router = useRouter();
 
-  /**
-   * useActionState
-   * ----------------
-   * state   -> response from server action
-   * action  -> passed directly to <form action={}>
-   * pending -> form submission state
-   */
   const [state, action, pending] = useActionState(registerAction, null);
 
-  /**
-   * Runs whenever the server action returns.
-   */
   useEffect(() => {
     if (!state) return;
 
-    // Registration failed
     if (!state.success) {
       toast.error(state.message);
       return;
     }
 
-    // Registration succeeded
     toast.success(state.message);
-
-    /**
-     * Redirect user to login page.
-     */
     router.push("/login");
   }, [state, router]);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="w-full max-w-md">
-        <form
-          action={action}
-          className="space-y-6 rounded-2xl border bg-background p-6 shadow-sm sm:p-8"
-        >
-          <div className="space-y-1">
-            <h1 className="text-2xl font-semibold tracking-tight">
-              Create your account
-            </h1>
+    <div className="w-full max-w-md">
+      {/* Logo */}
+      <Link href="/" className="mb-14 inline-flex items-center gap-3">
+        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-100">
+          <Tent className="h-5 w-5 text-emerald-700" />
+        </div>
+        <span className="text-2xl font-bold">GearUp</span>
+      </Link>
 
-            <p className="text-sm text-muted-foreground">
-              Sign up to start using GearUp.
-            </p>
-          </div>
+      {/* Heading */}
+      <div className="space-y-2">
+        <h1 className="text-4xl font-bold tracking-tight">
+          Create your account
+        </h1>
+        <p className="text-muted-foreground leading-7">
+          Sign up to start using GearUp.
+        </p>
+      </div>
 
-          <FieldGroup className="space-y-5">
-            {/* ---------------- Name ---------------- */}
-
-            <Field>
-              <FieldLabel htmlFor="name">Name</FieldLabel>
-
+      {/* Form */}
+      <form action={action}>
+        <FieldGroup className="mt-10 space-y-6">
+          {/* Name */}
+          <Field>
+            <FieldLabel>Name</FieldLabel>
+            <div className="relative mt-2">
+              <Mail className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
               <Input
-                id="name"
                 name="name"
                 type="text"
                 placeholder="Enter your name"
-                className="h-11"
+                className="h-14 rounded-2xl border-slate-200 bg-slate-50 pl-12 transition-all focus-visible:bg-white"
                 required
               />
+            </div>
+          </Field>
 
-              <FieldError errors={[]} />
-            </Field>
-
-            {/* ---------------- Email ---------------- */}
-
-            <Field>
-              <FieldLabel htmlFor="email">Email</FieldLabel>
-
+          {/* Email */}
+          <Field>
+            <FieldLabel>Email</FieldLabel>
+            <div className="relative mt-2">
+              <Mail className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
               <Input
-                id="email"
                 name="email"
                 type="email"
-                placeholder="Enter your email"
-                className="h-11"
+                placeholder="john@example.com"
+                className="h-14 rounded-2xl border-slate-200 bg-slate-50 pl-12 transition-all focus-visible:bg-white"
                 required
               />
+            </div>
+          </Field>
 
-              <FieldError errors={[]} />
-            </Field>
-
-            {/* ---------------- Password ---------------- */}
-
-            <Field>
-              <FieldLabel htmlFor="password">Password</FieldLabel>
-
+          {/* Password */}
+          <Field>
+            <FieldLabel>Password</FieldLabel>
+            <div className="relative mt-2">
+              <LockKeyhole className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
               <Input
-                id="password"
+                type="password"
                 name="password"
-                type="password"
-                placeholder="Enter your password"
-                className="h-11"
+                placeholder="••••••••"
+                className="h-14 rounded-2xl border-slate-200 bg-slate-50 pl-12 transition-all focus-visible:bg-white"
                 required
               />
+            </div>
+          </Field>
 
-              <FieldError errors={[]} />
-            </Field>
-
-            {/* ---------------- Confirm Password ---------------- */}
-
-            <Field>
-              <FieldLabel htmlFor="confirmPassword">
-                Confirm Password
-              </FieldLabel>
-
+          {/* Confirm Password */}
+          <Field>
+            <FieldLabel>Confirm Password</FieldLabel>
+            <div className="relative mt-2">
+              <LockKeyhole className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
               <Input
-                id="confirmPassword"
-                name="confirmPassword"
                 type="password"
+                name="confirmPassword"
                 placeholder="Re-enter your password"
-                className="h-11"
+                className="h-14 rounded-2xl border-slate-200 bg-slate-50 pl-12 transition-all focus-visible:bg-white"
                 required
               />
+            </div>
+          </Field>
+        </FieldGroup>
 
-              <FieldError errors={[]} />
-            </Field>
-          </FieldGroup>
+        <Button
+          type="submit"
+          disabled={pending}
+          className="mt-8 h-14 w-full rounded-2xl bg-[#123524] text-base font-semibold transition-all duration-200 hover:bg-[#1A4D3A] hover:shadow-lg disabled:pointer-events-none disabled:opacity-60"
+        >
+          {pending ? "Registering..." : "Register"}
+        </Button>
+      </form>
 
-          <Button type="submit" disabled={pending} className="w-full">
-            {pending ? "Registering..." : "Register"}
-          </Button>
-
-          <p className="text-center text-sm text-muted-foreground">
-            Already have an account?{" "}
-            <Link
-              href="/login"
-              className="font-medium text-foreground hover:underline"
-            >
-              Login
-            </Link>
-          </p>
-        </form>
-      </div>
+      <p className="mt-10 text-center text-sm text-slate-500">
+        Already have an account?{" "}
+        <Link href="/login" className="font-semibold text-[#123524]">
+          Login →
+        </Link>
+      </p>
     </div>
   );
 };

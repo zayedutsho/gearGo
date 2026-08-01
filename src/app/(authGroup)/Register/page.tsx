@@ -1,13 +1,24 @@
+import { Suspense } from "react";
+
+import AuthContent from "../_components/AuthContent";
 import RegisterForm from "../_components/RegisterForm";
 
-const RegisterPage = () => {
+export default function RegisterPage() {
   return (
-    <div>
-      <h1>register</h1>
+    <main className="min-h-screen bg-slate-100">
+      <div className="grid min-h-screen grid-cols-1 lg:grid-cols-[45%_55%]">
+        {/* Left */}
+        <section className="flex items-center justify-center bg-white px-8 lg:px-20">
+          <Suspense fallback={null}>
+            <RegisterForm />
+          </Suspense>
+        </section>
 
-      <RegisterForm></RegisterForm>
-    </div>
+        {/* Right */}
+        <section className="hidden lg:flex bg-[#123524]">
+          <AuthContent />
+        </section>
+      </div>
+    </main>
   );
-};
-
-export default RegisterPage;
+}

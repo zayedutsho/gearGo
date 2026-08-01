@@ -7,33 +7,28 @@ import { redirect } from "next/navigation";
 
 import axiosInstance from "@/lib/axios";
 
-type LoginState = {
+export type LoginState = {
   success: boolean;
   statusCode: number;
   message: string;
-  data: {
+  data?: {
     accessToken: string;
     refreshToken: string;
     user: {
-      role: string;
+      id: string;
+      email: string;
+      name: string;
+      role: "CUSTOMER" | "PROVIDER" | "ADMIN";
     };
   };
+  errorDetails?: unknown[];
 };
 
-/**
- * Server Action
- * ----------------
- * Responsible for:
- * - Reading form data
- * - Calling backend API
- * - Saving authentication cookies
- * - Redirecting user after successful login
- */
 export const loginAction = async (
   redirectTo: string,
   prevState: LoginState | null,
   formData: FormData,
-) => {
+): Promise<LoginState> => {
   /**
    * Read form values.
    */
@@ -45,96 +40,82 @@ export const loginAction = async (
     password,
   };
 
-  let responseData;
+  /**
+   * Call backend.
+   */
+  let data: LoginState;
 
   try {
-    /**
-     * Send credentials to backend.
-    
-     */
-    const { data } = await axiosInstance.post("/api/auth/login", payload);
-    responseData = data;
+    const response = await axiosInstance.post("/api/auth/login", payload);
+    data = response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      return (
-        error.response?.data ?? {
-          success: false,
-          statusCode: 500,
-          message: "Unexpected server error.",
-          data: null,
-        }
-      );
+      return {
+        success: error.response?.data?.success ?? false,
+        statusCode: error.response?.data?.statusCode ?? 500,
+        message: error.response?.data?.message ?? "Unexpected server error.",
+        data: error.response?.data?.data,
+        errorDetails: error.response?.data?.errorDetails ?? [],
+      };
     }
 
     return {
       success: false,
       statusCode: 500,
       message: "Something went wrong. Please try again.",
-      data: null,
+      data: undefined,
+      errorDetails: [],
     };
   }
 
   /**
-   * Store authentication cookies.
+   * Save cookies.
    */
-  if (responseData.success) {
-    const cookieStore = await cookies();
+  const cookieStore = await cookies();
 
-    cookieStore.set("accessToken", responseData.data.accessToken, {
-      httpOnly: true,
-      sameSite: "lax",
-      secure: process.env.NODE_ENV === "production",
-      path: "/",
-      maxAge: 60 * 60 * 24,
-    });
+  cookieStore.set("accessToken", data.data!.accessToken, {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+    path: "/",
+    maxAge: 60 * 60 * 24,
+  });
 
-    cookieStore.set("refreshToken", responseData.data.refreshToken, {
-      httpOnly: true,
-      sameSite: "lax",
-      secure: process.env.NODE_ENV === "production",
-      path: "/",
-      maxAge: 60 * 60 * 24 * 7,
-    });
+  cookieStore.set("refreshToken", data.data!.refreshToken, {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+    path: "/",
+    maxAge: 60 * 60 * 24 * 7,
+  });
 
-    /**
-     * Decode access token
-     * to determine user role.
-     */
-    const decodedToken = jwt.decode(
-      responseData.data.accessToken,
-    ) as JwtPayload;
+  /**
+   * Decode token.
+   */
+  const decoded = jwt.decode(data.data!.accessToken) as JwtPayload;
 
-    /**
-     * If middleware stored
-     * the original route,
-     * redirect there first.
-     */
-    if (
-      redirectTo &&
-      redirectTo.startsWith("/") &&
-      !redirectTo.startsWith("//")
-    ) {
-      redirect(redirectTo);
-    }
-
-    /**
-     * Otherwise redirect
-     * based on role.
-     */
-    switch (decodedToken.role) {
-      case "ADMIN":
-        redirect("/admin-dashboard");
-        break;
-
-      case "PROVIDER":
-        redirect("/provider-dashboard");
-        break;
-
-      default:
-        redirect("/dashboard");
-        break;
-    }
+  /**
+   * Redirect to originally requested page.
+   */
+  if (
+    redirectTo &&
+    redirectTo.startsWith("/") &&
+    !redirectTo.startsWith("//")
+  ) {
+    redirect(redirectTo);
   }
 
-  return responseData;
+  /**
+   * Redirect by role.
+   */
+  switch (decoded.role) {
+    case "ADMIN":
+      redirect("/admin-dashboard");
+
+    case "PROVIDER":
+      redirect("/provider-dashboard");
+
+    default:
+      redirect("/dashboard");
+  }
 };
