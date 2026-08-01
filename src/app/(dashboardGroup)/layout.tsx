@@ -1,5 +1,9 @@
-const DashboardLayOut = async ({ children }: { children: React.ReactNode }) => {
-  return <div>{children}</div>;
-};
+import DashboardLayout from "@/components/layouts/DashboardLayout";
 
-export default DashboardLayOut;
+export default function DashboardGroupLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return <DashboardLayout>{children}</DashboardLayout>;
+}
