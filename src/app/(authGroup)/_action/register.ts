@@ -1,8 +1,7 @@
 "use server";
 
-import axios from "axios";
-
 import axiosInstance from "@/lib/axios";
+import axios from "axios";
 
 export type RegisterState = {
   success: boolean;
@@ -30,6 +29,7 @@ export type RegisterState = {
     };
   } | null;
 };
+
 /**
  * Server Action
  * ----------------
@@ -39,6 +39,7 @@ export type RegisterState = {
  * - Returning backend response
  */
 export const registerAction = async (
+  prevState: RegisterState | null,
   formData: FormData,
 ): Promise<RegisterState> => {
   /**
@@ -47,11 +48,25 @@ export const registerAction = async (
   const name = formData.get("name");
   const email = formData.get("email");
   const password = formData.get("password");
+  const confirmPassword = formData.get("confirmPassword");
+
+  /**
+   * Client-side safety check.
+   */
+  if (password !== confirmPassword) {
+    return {
+      success: false,
+      statusCode: 400,
+      message: "Passwords do not match.",
+      data: null,
+    };
+  }
 
   const payload = {
     name,
     email,
     password,
+    confirmPassword,
   };
 
   try {
@@ -61,14 +76,8 @@ export const registerAction = async (
      */
     const { data } = await axiosInstance.post("/api/auth/register", payload);
 
-    /**
-     * Return backend response.
-     */
     return data;
   } catch (error) {
-    /**
-     * Backend validation errors.
-     */
     if (axios.isAxiosError(error)) {
       return (
         error.response?.data ?? {
@@ -80,9 +89,6 @@ export const registerAction = async (
       );
     }
 
-    /**
-     * Unexpected errors.
-     */
     return {
       success: false,
       statusCode: 500,

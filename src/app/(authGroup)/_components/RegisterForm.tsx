@@ -1,3 +1,13 @@
+"use client";
+
+import { useActionState, useEffect } from "react";
+
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+
+import { registerAction } from "../_action/register";
+
 import { Button } from "@/components/ui/button";
 import {
   Field,
@@ -6,16 +16,45 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import Link from "next/link";
-import { registerAction } from "../_action/register";
 
 const RegisterForm = () => {
-  const pending = false;
+  const router = useRouter();
+
+  /**
+   * useActionState
+   * ----------------
+   * state   -> response from server action
+   * action  -> passed directly to <form action={}>
+   * pending -> form submission state
+   */
+  const [state, action, pending] = useActionState(registerAction, null);
+
+  /**
+   * Runs whenever the server action returns.
+   */
+  useEffect(() => {
+    if (!state) return;
+
+    // Registration failed
+    if (!state.success) {
+      toast.error(state.message);
+      return;
+    }
+
+    // Registration succeeded
+    toast.success(state.message);
+
+    /**
+     * Redirect user to login page.
+     */
+    router.push("/login");
+  }, [state, router]);
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-background">
       <div className="w-full max-w-md">
         <form
-          action={registerAction}
+          action={action}
           className="space-y-6 rounded-2xl border bg-background p-6 shadow-sm sm:p-8"
         >
           <div className="space-y-1">
@@ -30,8 +69,10 @@ const RegisterForm = () => {
 
           <FieldGroup className="space-y-5">
             {/* ---------------- Name ---------------- */}
+
             <Field>
               <FieldLabel htmlFor="name">Name</FieldLabel>
+
               <Input
                 id="name"
                 name="name"
@@ -40,12 +81,15 @@ const RegisterForm = () => {
                 className="h-11"
                 required
               />
+
               <FieldError errors={[]} />
             </Field>
 
             {/* ---------------- Email ---------------- */}
+
             <Field>
               <FieldLabel htmlFor="email">Email</FieldLabel>
+
               <Input
                 id="email"
                 name="email"
@@ -54,12 +98,15 @@ const RegisterForm = () => {
                 className="h-11"
                 required
               />
+
               <FieldError errors={[]} />
             </Field>
 
             {/* ---------------- Password ---------------- */}
+
             <Field>
               <FieldLabel htmlFor="password">Password</FieldLabel>
+
               <Input
                 id="password"
                 name="password"
@@ -68,14 +115,17 @@ const RegisterForm = () => {
                 className="h-11"
                 required
               />
+
               <FieldError errors={[]} />
             </Field>
 
             {/* ---------------- Confirm Password ---------------- */}
+
             <Field>
               <FieldLabel htmlFor="confirmPassword">
                 Confirm Password
               </FieldLabel>
+
               <Input
                 id="confirmPassword"
                 name="confirmPassword"
@@ -84,13 +134,10 @@ const RegisterForm = () => {
                 className="h-11"
                 required
               />
+
               <FieldError errors={[]} />
             </Field>
           </FieldGroup>
-
-          {/* <Button type="submit" disabled={pending} className="w-full">
-            {pending ? "Registering..." : "Register"}
-          </Button> */}
 
           <Button type="submit" disabled={pending} className="w-full">
             {pending ? "Registering..." : "Register"}
