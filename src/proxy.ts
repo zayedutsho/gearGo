@@ -1,8 +1,10 @@
 import { jwtDecode } from "jwt-decode";
 import { NextRequest, NextResponse } from "next/server";
 
+// Define routes that anyone can access without being logged in
 const PUBLIC_ROUTES = ["/"];
-const AUTH_ROUTES = ["/login", "/register", "/"];
+// Define routes related to authentication (login/register)
+const AUTH_ROUTES = ["/login", "/register"];
 
 type JwtPayload = {
   id: string;
@@ -10,11 +12,13 @@ type JwtPayload = {
   exp: number;
 };
 
+// Middleware function that runs on every request
 export async function proxy(request: NextRequest) {
   console.log("🔥 Proxy executed:", request.nextUrl.pathname);
 
+  // Extract the path being requested
   const { pathname } = request.nextUrl;
-
+  // Read the access token from cookies (if present)
   const accessToken = request.cookies.get("accessToken")?.value;
 
   const isPublicRoute = PUBLIC_ROUTES.some(

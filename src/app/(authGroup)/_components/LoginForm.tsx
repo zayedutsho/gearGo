@@ -1,7 +1,13 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useActionState, useEffect } from "react";
+
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+
+import { toast } from "sonner";
+
+import { loginAction } from "../_action/login";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -11,129 +17,107 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { LoginFormData, loginSchema } from "@/schemas/auth.schema";
-import { useMutation } from "@tanstack/react-query";
-import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
-import { toast } from "sonner";
-import { loginAction } from "../_action/login";
 
 export default function LoginForm() {
-  const router = useRouter();
+  /**
+   * Read redirect URL added
+   * by middleware.
+   */
   const searchParams = useSearchParams();
-  const redirectTo = searchParams.get("redirectTo");
+  const redirectTo = searchParams.get("redirectTo") ?? "";
 
-  const form = useForm<LoginFormData>({
-    resolver: zodResolver(loginSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-  });
+  /**
+   * useActionState
+   * ----------------
+   * state   -> response from server action
+   * action  -> passed directly to <form action={}>
+   * pending -> submission state
+   */
+  const [state, action, pending] = useActionState(
+    loginAction.bind(null, redirectTo),
+    null,
+  );
 
-  const loginMutation = useMutation({
-    mutationFn: loginAction,
-    onSuccess: (result) => {
-      if (!result.success) {
-        toast.error(result.message);
-        return;
-      }
-      toast.success(result.message);
+  /**
+   * Only failed logins reach here.
+   *
+   * Successful login redirects
+   * from the server action.
+   */
+  useEffect(() => {
+    if (!state || state.success) return;
 
-      if (redirectTo) {
-        router.push(redirectTo);
-        return;
-      }
-
-      switch (result.data.user.role) {
-        case "ADMIN":
-          router.push("/admin-dashboard");
-          break;
-
-        case "PROVIDER":
-          router.push("/provider-dashboard");
-          break;
-
-        default:
-          router.push("/dashboard");
-      }
-    },
-    onError: (error: any) => {
-      toast.error(error.response?.data?.message);
-    },
-  });
-
-  const onSubmit = (data: LoginFormData) => {
-    console.log(data);
-    loginMutation.mutate(data);
-  };
+    toast.error(state.message || "Login failed");
+  }, [state]);
 
   return (
-    <>
-      <div className="flex min-h-screen items-center justify-center bg-background">
-        <div className="w-full max-w-md">
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-6 rounded-2xl border bg-background p-6 shadow-sm sm:p-8"
-          >
-            <div className="space-y-1">
-              <h1 className="text-2xl font-semibold tracking-tight">
-                Welcome back
-              </h1>
-              <p className="text-sm text-muted-foreground">
-                Sign in to your GearUp account.
-              </p>
-            </div>
+    <div className="flex min-h-screen items-center justify-center bg-background">
+      <div className="w-full max-w-md">
+        <form
+          action={action}
+          className="space-y-6 rounded-2xl border bg-background p-6 shadow-sm sm:p-8"
+        >
+          <div className="space-y-1">
+            <h1 className="text-2xl font-semibold tracking-tight">
+              Welcome back
+            </h1>
 
-            <FieldGroup className="space-y-5">
-              <Field data-invalid={!!form.formState.errors.email}>
-                <FieldLabel htmlFor="email">Email</FieldLabel>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="Enter your email"
-                  className="h-11"
-                  {...form.register("email")}
-                  aria-invalid={!!form.formState.errors.email}
-                />
-                {form.formState.errors.email && (
-                  <FieldError errors={[form.formState.errors.email]} />
-                )}
-              </Field>
-
-              <Field data-invalid={!!form.formState.errors.password}>
-                <div className="flex items-center justify-between">
-                  <FieldLabel htmlFor="password">Password</FieldLabel>
-                </div>
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="Enter your password"
-                  className="h-11"
-                  {...form.register("password")}
-                  aria-invalid={!!form.formState.errors.password}
-                />
-                {form.formState.errors.password && (
-                  <FieldError errors={[form.formState.errors.password]} />
-                )}
-              </Field>
-            </FieldGroup>
-
-            <Button type="submit" disabled={loginMutation.isPending}>
-              {loginMutation.isPending ? "Signing in..." : "Login"}
-            </Button>
-
-            <p className="text-center text-sm text-muted-foreground">
-              Don't have an account?{" "}
-              <Link href="/register">
-                <span className="font-medium text-foreground hover:underline cursor-pointer">
-                  Register
-                </span>
-              </Link>
+            <p className="text-sm text-muted-foreground">
+              Sign in to your GearUp account.
             </p>
-          </form>
-        </div>
+          </div>
+
+          <FieldGroup className="space-y-5">
+            {/* ---------------- Email ---------------- */}
+
+            <Field>
+              <FieldLabel htmlFor="email">Email</FieldLabel>
+
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                placeholder="Enter your email"
+                className="h-11"
+                required
+              />
+
+              <FieldError errors={[]} />
+            </Field>
+
+            {/* ---------------- Password ---------------- */}
+
+            <Field>
+              <FieldLabel htmlFor="password">Password</FieldLabel>
+
+              <Input
+                id="password"
+                name="password"
+                type="password"
+                placeholder="Enter your password"
+                className="h-11"
+                required
+              />
+
+              <FieldError errors={[]} />
+            </Field>
+          </FieldGroup>
+
+          <Button type="submit" disabled={pending} className="w-full">
+            {pending ? "Signing in..." : "Login"}
+          </Button>
+
+          <p className="text-center text-sm text-muted-foreground">
+            Dont have an account?{" "}
+            <Link
+              href="/register"
+              className="font-medium text-foreground hover:underline"
+            >
+              Register
+            </Link>
+          </p>
+        </form>
       </div>
-    </>
+    </div>
   );
 }
