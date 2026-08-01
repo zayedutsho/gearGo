@@ -14,6 +14,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+import { logout } from "@/services/logout";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+
 type Props = {
   user: {
     id: string;
@@ -25,12 +29,14 @@ type Props = {
 };
 
 export default function LoggedInMenu({ user }: Props) {
+  const router = useRouter();
+
   const dashboardRoute =
     user.role === "ADMIN"
       ? "/admin-dashboard"
       : user.role === "PROVIDER"
-      ? "/provider-dashboard"
-      : "/dashboard";
+        ? "/provider-dashboard"
+        : "/dashboard";
 
   const initials = user.name
     .split(" ")
@@ -38,6 +44,13 @@ export default function LoggedInMenu({ user }: Props) {
     .join("")
     .slice(0, 2)
     .toUpperCase();
+  const handleUserMenuAction = async (action: string) => {
+    if (action === "logout") {
+      await logout();
+      toast.success("User Logged Out Successfully!");
+      router.push("/login");
+    }
+  };
 
   return (
     <DropdownMenu>
@@ -65,7 +78,13 @@ export default function LoggedInMenu({ user }: Props) {
 
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem variant="destructive" className="cursor-pointer">
+        <DropdownMenuItem
+          variant="destructive"
+          className="cursor-pointer"
+          onClick={async () => {
+            await handleUserMenuAction("logout");
+          }}
+        >
           <LogOut className="mr-2 h-4 w-4" />
           Logout
         </DropdownMenuItem>
