@@ -1,53 +1,39 @@
 import { ArrowRight } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 
+import { Category } from "@/types/category";
+
 type Props = {
-  category: {
-    id: number;
-    name: string;
-    image: string;
-    totalGear: number;
-    slug: string;
-    icon: React.ElementType;
-  };
+  category: Category;
 };
 
 export default function CategoryCard({ category }: Props) {
-  const Icon = category.icon;
-
+  console.log("CategoryCard category:", category); // Debugging line
   return (
     <Link
-      href={`/categories/${category.slug}`}
-      className="group overflow-hidden rounded-3xl border bg-white transition-all duration-300 hover:-translate-y-1 hover:border-[#123524]/20 hover:shadow-xl"
+      href={`/gears?category=${category.id}`}
+      className="group flex h-full flex-col rounded-3xl border bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[#123524]/20 hover:shadow-xl"
     >
-      {/* Image */}
-      <div className="relative aspect-[4/3] overflow-hidden">
-        <Image
-          src={category.image}
-          alt={category.name}
-          fill
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
-        />
-      </div>
+      {/* Icon */}
+      {/* <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#123524]/10">
+        <FolderKanban className="h-7 w-7 text-[#123524]" />
+      </div> */}
 
       {/* Content */}
-      <div className="flex items-center justify-between p-5">
-        <div className="flex gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#123524]/10">
-            <Icon className="h-5 w-5 text-[#123524]" />
-          </div>
+      <div className="flex flex-1 flex-col">
+        <h3 className="text-lg font-semibold">{category.name}</h3>
 
-          <div>
-            <h3 className="font-semibold">{category.name}</h3>
+        <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">
+          {category.description ?? "Explore premium outdoor gear."}
+        </p>
 
-            <p className="text-sm text-muted-foreground">
-              {category.totalGear}+ Items
-            </p>
-          </div>
+        <div className="mt-auto flex items-center justify-between pt-6">
+          <span className="text-sm font-medium text-muted-foreground">
+            Total Gears:{category._count.gearItems}
+          </span>
+
+          <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
         </div>
-
-        <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
       </div>
     </Link>
   );
