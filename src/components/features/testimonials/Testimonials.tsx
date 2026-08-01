@@ -1,7 +1,9 @@
+// src/components/features/testimonials/Testimonials.tsx
+
 import TestimonialCard from "./TestimonialCard";
 import { testimonials } from "./testimonials";
 
-export default function Testimonials() {
+const Testimonials = () => {
   return (
     <section className="bg-[#F8FAF8] py-24">
       <div className="mx-auto max-w-[1440px] px-6 lg:px-10">
@@ -28,4 +30,6 @@ export default function Testimonials() {
       </div>
     </section>
   );
-}
+};
+
+export default Testimonials;

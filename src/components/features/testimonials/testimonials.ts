@@ -1,4 +1,15 @@
-export const testimonials = [
+// src/components/features/testimonials/testimonials.ts
+
+export type Testimonial = {
+  id: number;
+  name: string;
+  role: string;
+  image: string;
+  rating: number;
+  review: string;
+};
+
+export const testimonials: Testimonial[] = [
   {
     id: 1,
     name: "Sarah Johnson",

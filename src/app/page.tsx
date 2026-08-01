@@ -2,16 +2,18 @@ import Categories from "@/components/features/categories/Categories";
 import FeaturedGear from "@/components/features/featured-gear/FeaturedGear";
 import Hero from "@/components/features/hero/Hero";
 import HowItWorks from "@/components/features/howItWorks/HowItWorks";
+import Testimonials from "@/components/features/testimonials/Testimonials";
+import WhyUs from "@/components/features/why-us/WhyUs";
 
-const page = () => {
+export default function Page() {
   return (
     <>
-      <Hero></Hero>
-      <Categories></Categories>
-      <FeaturedGear></FeaturedGear>
-      <HowItWorks></HowItWorks>
+      <Hero />
+      <Categories />
+      <FeaturedGear />
+      <HowItWorks />
+      <Testimonials />
+      <WhyUs></WhyUs>
     </>
   );
-};
-
-export default page;
+}

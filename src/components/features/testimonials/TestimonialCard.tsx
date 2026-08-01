@@ -1,8 +1,11 @@
+"use client";
+
 import { Star } from "lucide-react";
 import Image from "next/image";
+import type { Testimonial } from "./testimonials";
 
 type Props = {
-  testimonial: any;
+  testimonial: Testimonial;
 };
 
 export default function TestimonialCard({ testimonial }: Props) {
@@ -18,7 +21,7 @@ export default function TestimonialCard({ testimonial }: Props) {
       </div>
 
       <p className="mb-8 leading-8 text-muted-foreground">
-        "{testimonial.review}"
+        {testimonial.review}
       </p>
 
       <div className="flex items-center gap-4">
@@ -32,7 +35,6 @@ export default function TestimonialCard({ testimonial }: Props) {
 
         <div>
           <h4 className="font-semibold">{testimonial.name}</h4>
-
           <p className="text-sm text-muted-foreground">{testimonial.role}</p>
         </div>
       </div>
