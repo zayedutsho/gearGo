@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 
 import { getGears } from "@/services/gear/getGears";
 
-import GearGrid from "./../gears/GearGrid";
+import GearGrid from "./GearGrid";
 
 export default async function FeaturedGear() {
   const result = await getGears({

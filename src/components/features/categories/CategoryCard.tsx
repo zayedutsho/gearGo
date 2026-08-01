@@ -1,4 +1,3 @@
-import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 import { Category } from "@/types/category";
@@ -20,7 +19,7 @@ export default function CategoryCard({ category }: Props) {
       </div> */}
 
       {/* Content */}
-      <div className="flex flex-1 flex-col">
+      <div className="flex flex-1 flex-col justify-center items-center">
         <h3 className="text-lg font-semibold">{category.name}</h3>
 
         <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">
@@ -32,7 +31,7 @@ export default function CategoryCard({ category }: Props) {
             Total Gears:{category._count.gearItems}
           </span>
 
-          <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
+          {/* <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" /> */}
         </div>
       </div>
     </Link>
