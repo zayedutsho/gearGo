@@ -1,3 +1,4 @@
+import Navbar from "@/components/shared/navbar/Navbar";
 import { Toaster } from "@/components/ui/sonner";
 import Providers from "@/providers/providers";
 import type { Metadata } from "next";
@@ -32,7 +33,11 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <Toaster position="top-right" richColors />
 
-        <Providers>{children}</Providers>
+        <Providers>
+          <Navbar></Navbar>
+
+          {children}
+        </Providers>
       </body>
     </html>
   );
