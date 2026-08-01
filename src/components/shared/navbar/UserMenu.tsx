@@ -1,27 +1,18 @@
-import { getMe } from "@/services/getMe";
+"use client";
+
+import { IUser } from "@/types/user";
+
 import LoggedInMenu from "./LoggedInMenu";
 import LoggedOutMenu from "./LoggedOutMenu";
 
-// type GetMeResponse = {
-//   success: boolean;
-//   data: {
-//     profile: {
-//       id: string;
-//       name: string;
-//       email: string;
-//       phone: string | null;
-//       role: "ADMIN" | "PROVIDER" | "CUSTOMER";
-//       image?: string;
-//     };
-//   };
-// };
+type Props = {
+  user: IUser | null;
+};
 
-export default async function UserMenu() {
-  const me = await getMe();
-
-  if (!me?.success || !me.data?.profile) {
+export default function UserMenu({ user }: Props) {
+  if (!user) {
     return <LoggedOutMenu />;
   }
 
-  return <LoggedInMenu user={me.data.profile} />;
+  return <LoggedInMenu user={user} />;
 }

@@ -1,11 +1,10 @@
-import { Button } from "@/components/ui/button";
+import Hero from "@/components/features/hero/Hero";
 
 const page = () => {
   return (
-    <div>
-      <h1>gearGo</h1>
-      <Button variant={"destructive"}>go</Button>
-    </div>
+    <>
+      <Hero></Hero>
+    </>
   );
 };
 
