@@ -4,25 +4,20 @@ import { cookies } from "next/headers";
 
 import axiosInstance from "@/lib/axios";
 
-export const getMe = async () => {
+export const getNewAccessToken = async () => {
   try {
     const cookieStore = await cookies();
 
-    const accessToken = cookieStore.get("accessToken")?.value;
+    const refreshToken = cookieStore.get("refreshToken")?.value;
 
     // Guest user
-    if (!accessToken) {
+    if (!refreshToken) {
       return null;
     }
 
     const { data } = await axiosInstance.get("/api/auth/me", {
       headers: {
-        Cookie: `accessToken=${accessToken}`,
-      },
-      cache: "force-cache",
-      next: {
-        revalidate: 60 * 60 * 24, // 1day
-        tags: ["my-profile"],
+        Cookie: `refreshToken=${refreshToken}`,
       },
     });
 

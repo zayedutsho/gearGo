@@ -4,6 +4,7 @@ import Hero from "@/components/features/hero/Hero";
 import HowItWorks from "@/components/features/howItWorks/HowItWorks";
 import Testimonials from "@/components/features/testimonials/Testimonials";
 import WhyUs from "@/components/features/why-us/WhyUs";
+import Footer from "@/components/shared/footer/Footer";
 
 export default function Page() {
   return (
@@ -14,6 +15,7 @@ export default function Page() {
       <HowItWorks />
       <Testimonials />
       <WhyUs></WhyUs>
+      <Footer></Footer>
     </>
   );
 }
