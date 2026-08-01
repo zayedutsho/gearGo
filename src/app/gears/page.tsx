@@ -1,6 +1,8 @@
+import GearFilters from "@/components/features/gears/GearFilters";
 import GearGrid from "@/components/features/gears/GearGrid";
+import GearSearch from "@/components/features/gears/GearSearch";
+import GearSort from "@/components/features/gears/GearSort";
 import { getGears } from "@/services/gear/getGears";
-
 export default async function GearPage() {
   const result = await getGears({
     page: 1,
@@ -26,8 +28,17 @@ export default async function GearPage() {
             trusted providers.
           </p>
         </div>
+        <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <GearSearch />
 
-        <GearGrid gears={result.data} />
+          <GearSort />
+        </div>
+
+        <div className="grid gap-8 lg:grid-cols-[280px_1fr]">
+          <GearFilters />
+
+          <GearGrid gears={result.data} />
+        </div>
       </div>
     </main>
   );
