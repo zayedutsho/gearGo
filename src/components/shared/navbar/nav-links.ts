@@ -7,10 +7,7 @@ export const navLinks = [
     label: "Browse Gear",
     href: "/gears",
   },
-  {
-    label: "Categories",
-    href: "/categories",
-  },
+
   {
     label: "About",
     href: "/about",
