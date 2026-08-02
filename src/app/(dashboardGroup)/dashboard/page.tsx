@@ -5,7 +5,7 @@ import { useMemo } from "react";
 
 import { useMyRentals } from "@/hooks/useMyRentals";
 import DashboardStatCard from "../_components/DashboardStatCard";
-
+import RecentRentals from "../_components/RecentRentals";
 export default function DashboardPage() {
   const { data: rentals = [], isLoading } = useMyRentals();
 
@@ -71,6 +71,7 @@ export default function DashboardPage() {
           value={`$${stats.totalSpent}`}
           icon={Wallet}
         />
+        <RecentRentals rentals={rentals} />
       </div>
     </div>
   );
