@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getNewAccessToken } from "./services/refreshToken";
 import { jwtUtils } from "./utils/jwt";
 
-const PUBLIC_ROUTES = ["/"];
+const PUBLIC_ROUTES = ["/", "/gears", "/about", "/contact", "/404", "/403"];
 const AUTH_ROUTES = ["/login", "/register"];
 
 type JwtPayload = {

@@ -9,11 +9,16 @@ import { Input } from "@/components/ui/input";
 import { createCheckoutSession } from "@/services/payment/createCheckoutSession";
 import { createRental } from "@/services/rental/createRental";
 import { Gear } from "@/types/gear";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+
 type Props = {
   gear: Gear;
 };
 
 export default function RentalCard({ gear }: Props) {
+  const router = useRouter();
+
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [quantity, setQuantity] = useState(1);
@@ -36,11 +41,59 @@ export default function RentalCard({ gear }: Props) {
 
   const total = rentalDays * gear.pricePerDay * quantity;
 
+  // const handleRent = async () => {
+  //   if (!startDate || !endDate) return;
+
+  //   if (rentalDays <= 0) {
+  //     alert("End date must be after the start date.");
+  //     return;
+  //   }
+
+  //   try {
+  //     setLoading(true);
+
+  //     // 1. Create Rental
+  //     const rental = await createRental({
+  //       startDate: new Date(startDate).toISOString(),
+  //       endDate: new Date(endDate).toISOString(),
+  //       items: [
+  //         {
+  //           gearId: gear.id,
+  //           quantity,
+  //         },
+  //       ],
+  //     });
+
+  //     console.log("Rental:", rental);
+
+  //     // 2. Create Checkout Session
+  //     const payment = await createCheckoutSession(rental.data.id);
+
+  //     console.log("Payment:", payment);
+
+  //     // 3. Redirect to Stripe
+  //     window.location.assign(payment.data.checkoutUrl);
+  //   } catch (error: any) {
+  //     console.error(error);
+  //     console.error(error?.response?.data);
+
+  //     alert(
+  //       error?.response?.data?.message ??
+  //         "Something went wrong. Please try again.",
+  //     );
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
   const handleRent = async () => {
-    if (!startDate || !endDate) return;
+    if (!startDate || !endDate) {
+      toast.error("Please select rental dates.");
+      return;
+    }
 
     if (rentalDays <= 0) {
-      alert("End date must be after the start date.");
+      toast.error("End date must be after the start date.");
       return;
     }
 
@@ -58,28 +111,39 @@ export default function RentalCard({ gear }: Props) {
           },
         ],
       });
+      console.log(JSON.stringify(rental, null, 2)); // Rental failed
+      if (!rental.success) {
+        if (rental.status === 401) {
+          toast.error("Please login to rent this gear.");
 
-      console.log("Rental:", rental);
+          router.push(`/login?redirectTo=/gears/${gear.id}`);
+          return;
+        }
+
+        toast.error(rental.message);
+        return;
+      }
 
       // 2. Create Checkout Session
       const payment = await createCheckoutSession(rental.data.id);
 
-      console.log("Payment:", payment);
+      // Payment failed
+      if (!payment.success) {
+        toast.error(payment.message ?? "Unable to start checkout.");
+        return;
+      }
 
       // 3. Redirect to Stripe
       window.location.assign(payment.data.checkoutUrl);
-    } catch (error: any) {
+    } catch (error) {
       console.error(error);
-      console.error(error?.response?.data);
 
-      alert(
-        error?.response?.data?.message ??
-          "Something went wrong. Please try again.",
-      );
+      toast.error("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
   };
+
   return (
     <div className="sticky top-24 rounded-3xl border bg-white p-6 shadow-sm">
       <h3 className="mb-6 text-2xl font-bold">Select Rental Dates</h3>
