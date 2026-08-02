@@ -14,5 +14,5 @@ export async function getMyRentals() {
     },
   });
 
-  return data;
+  return data.data;
 }
