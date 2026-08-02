@@ -2,7 +2,9 @@
 
 import Link from "next/link";
 
+import { Button } from "@/components/ui/button";
 import { useMyRentals } from "@/hooks/useMyRentals";
+import { ArrowLeft } from "lucide-react";
 
 export default function RentalsPage() {
   const { data: rentals = [], isLoading } = useMyRentals();
@@ -14,6 +16,12 @@ export default function RentalsPage() {
   return (
     <div className="space-y-8">
       <div>
+        <Button variant="ghost" className="mb-8">
+          <Link href="/dashboard">
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back to Dashboard
+          </Link>
+        </Button>
         <h1 className="text-3xl font-bold">My Rentals</h1>
 
         <p className="text-muted-foreground">
