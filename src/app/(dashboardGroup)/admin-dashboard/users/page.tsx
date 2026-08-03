@@ -1,6 +1,5 @@
 import { getUsers } from "@/services/admin/getUsers";
-
-import UsersTable from "./_components/UsersTable";
+import UsersTable from "../_components/UsersTable";
 
 export default async function UsersPage() {
   const result = await getUsers();

@@ -1,6 +1,6 @@
 export type UserRole = "ADMIN" | "PROVIDER" | "CUSTOMER";
 
-export type UserStatus = "ACTIVE" | "INACTIVE" | "SUSPENDED";
+export type UserStatus = "ACTIVE" | "BLOCKED";
 
 export interface IUser {
   id: string;

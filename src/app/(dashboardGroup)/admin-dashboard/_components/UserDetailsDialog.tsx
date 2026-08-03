@@ -115,9 +115,7 @@ export default function UserDetailsDialog({ user }: Props) {
                   <SelectContent>
                     <SelectItem value="ACTIVE">Active</SelectItem>
 
-                    <SelectItem value="INACTIVE">Inactive</SelectItem>
-
-                    <SelectItem value="SUSPENDED">Suspended</SelectItem>
+                    <SelectItem value="BLOCKED">BLOCKED</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
