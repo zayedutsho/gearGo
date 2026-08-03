@@ -30,12 +30,7 @@ This frontend is a Next.js 16 App Router application with a clear separation bet
 | Feature               | Status          | Service                                                        | HTTP Method    | Endpoint          | Notes                                                                        |
 | --------------------- | --------------- | -------------------------------------------------------------- | -------------- | ----------------- | ---------------------------------------------------------------------------- |
 | Fetch Categories      | Implemented     | [src/services/getCategories.ts](src/services/getCategories.ts) | GET            | `/api/categories` | Used by the home page category section, gear filters, and provider gear form |
-| Fetch Single Category | Not Implemented | Not applicable                                                 | Not applicable | Not applicable    | No dedicated service or route usage exists                                   |
-| Create Category       | Not Implemented | Not applicable                                                 | Not applicable | Not applicable    | No create-category flow exists in the frontend                               |
-| Update Category       | Not Implemented | Not applicable                                                 | Not applicable | Not applicable    | No update-category flow exists in the frontend                               |
-| Delete Category       | Not Implemented | Not applicable                                                 | Not applicable | Not applicable    | No delete-category flow exists in the frontend                               |
-
----
+                           ---
 
 # Gear APIs
 
