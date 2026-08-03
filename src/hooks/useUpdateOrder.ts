@@ -1,18 +1,17 @@
 "use client";
 
-import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 import { updateOrder } from "@/services/provider/updateOrder";
 
 export function useUpdateOrder() {
-  const router = useRouter();
+  const queryClient = useQueryClient();
 
   const mutation = useMutation({
     mutationFn: updateOrder,
 
-    onSuccess: (response) => {
+    onSuccess: async (response) => {
       if (!response.success) {
         toast.error(response.message);
         return;
@@ -20,7 +19,9 @@ export function useUpdateOrder() {
 
       toast.success(response.message);
 
-      router.refresh();
+      await queryClient.invalidateQueries({
+        queryKey: ["provider-orders"],
+      });
     },
 
     onError: (error) => {
