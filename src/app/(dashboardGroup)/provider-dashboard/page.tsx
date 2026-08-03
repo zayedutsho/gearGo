@@ -1,12 +1,18 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Boxes, DollarSign, Package } from "lucide-react";
 
 import DashboardStatCard from "@/components/dashboard/DashboardStatCard";
+
 import { getGear } from "@/services/gear/getGear";
+import { getOrders } from "@/services/provider/getOrders";
+
+import OrdersTable from "./_components/OrdersTable";
 
 export default async function ProviderDashPage() {
-  const result = await getGear();
+  const [gearResult, orderResult] = await Promise.all([getGear(), getOrders()]);
 
-  const gears = result.data ?? [];
+  const gears = gearResult.data ?? [];
+  const orders = orderResult.data ?? [];
 
   const totalGears = gears.length;
 
@@ -49,6 +55,17 @@ export default async function ProviderDashPage() {
           icon={DollarSign}
         />
       </div>
+
+      <section className="space-y-4">
+        <div>
+          <h2 className="text-xl font-semibold">Recent Rental Orders</h2>
+          <p className="text-sm text-muted-foreground">
+            View and manage customer rental requests.
+          </p>
+        </div>
+
+        <OrdersTable orders={orders} />
+      </section>
     </div>
   );
 }

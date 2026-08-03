@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 
 import { useProviderGears } from "@/hooks/useProviderGears";
 
+import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
 import AddGearDialog from "../_components/AddGearDialog";
 import DeleteGearDialog from "../_components/DeleteGearDialog";
 import EditGearDialog from "../_components/EditGearDialog";
@@ -36,6 +38,12 @@ export default function ProviderGearsPage() {
 
   return (
     <div className="space-y-6">
+      <Button variant="ghost" className="mb-8">
+        <Link href="/provider-dashboard">
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Back to provider-dashboard
+        </Link>
+      </Button>
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">Gear Listings</h1>
