@@ -6,12 +6,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { DUser } from "@/types/user";
+import { IUser } from "@/types/user";
 
 import UserTableRow from "./UserTableRow";
 
 type Props = {
-  users: DUser[];
+  users: IUser[];
 };
 
 export default function UsersTable({ users }: Props) {

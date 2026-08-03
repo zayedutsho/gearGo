@@ -18,17 +18,9 @@ export interface UserProfile {
   address: string | null;
 }
 
-export interface DUser {
-  id: string;
-  name: string;
-  email: string;
-  phone: string | null;
-
-  role: UserRole;
+export interface User extends IUser {
   status: UserStatus;
-
   createdAt: string;
   updatedAt: string;
-
   profile: UserProfile | null;
 }

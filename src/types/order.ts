@@ -1,11 +1,13 @@
+import { IUser } from "./user";
+
 export type OrderStatus =
-  | "PENDING"
+  | "PLACED"
   | "CONFIRMED"
   | "ACTIVE"
   | "RETURNED"
   | "CANCELLED";
 
-export type PaymentStatus = "PAID" | "UNPAID";
+export type PaymentStatus = "PAID" | "PENDING";
 
 export interface Gear {
   id: string;
@@ -22,26 +24,41 @@ export interface RentalItem {
   gear: Gear;
 }
 
-export interface Customer {
+export interface Payment {
   id: string;
-  name: string;
-  email: string;
+  rentalOrderId: string;
+  transactionId: string | null;
+  amount: number;
+  paymentProvider: "STRIPE";
+  status: PaymentStatus;
+  paidAt: string | null;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface RentalOrder {
   id: string;
+
   customerId: string;
   providerId: string;
+
   startDate: string;
   endDate: string;
+
   totalAmount: number;
+
   status: OrderStatus;
   paymentStatus: PaymentStatus;
+
   createdAt: string;
   updatedAt: string;
 
-  customer: Customer;
+  customer: IUser;
+  provider: IUser;
+
   rentalItems: RentalItem[];
+
+  payment: Payment | null;
 }
 
 export interface UpdateOrderPayload {
