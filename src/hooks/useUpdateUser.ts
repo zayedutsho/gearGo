@@ -1,12 +1,14 @@
 "use client";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import { updateUser } from "@/services/admin/updateUser";
 
 export function useUpdateUser() {
   const queryClient = useQueryClient();
+  const router = useRouter();
 
   const mutation = useMutation({
     mutationFn: updateUser,
@@ -22,6 +24,8 @@ export function useUpdateUser() {
       queryClient.invalidateQueries({
         queryKey: ["admin", "users"],
       });
+
+      router.refresh();
     },
 
     onError: () => {

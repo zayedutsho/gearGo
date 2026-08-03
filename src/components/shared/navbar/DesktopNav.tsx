@@ -2,7 +2,6 @@ import { IUser } from "@/types/user";
 
 import NavLinks from "./NavLinks";
 import NavLogo from "./NavLogo";
-import SearchBar from "./SearchBar";
 import UserMenu from "./UserMenu";
 
 type Props = {
@@ -18,7 +17,7 @@ export default function DesktopNav({ user }: Props) {
       </div>
 
       <div className="flex items-center gap-4">
-        <SearchBar />
+        {/* <SearchBar /> */}
 
         {/* Future */}
         {/* Wishlist */}

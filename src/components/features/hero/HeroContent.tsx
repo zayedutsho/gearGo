@@ -23,7 +23,7 @@ export default function HeroContent() {
             size="lg"
             className="h-14 rounded-2xl bg-[#123524] px-8 hover:bg-[#184A35]"
           >
-            <Link href="/browse">
+            <Link href="/gears">
               Browse Gear
               <ArrowRight className="ml-2 h-5 w-5" />
             </Link>

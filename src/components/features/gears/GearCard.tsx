@@ -88,7 +88,8 @@ export default function GearCard({ gear }: Props) {
             className="h-11 rounded-xl bg-[#123524] hover:bg-[#1b4b36]"
             disabled={!available}
           >
-            Rent Now
+            {" "}
+            <Link href={`/gears/${gear.id}`}>Rent Now</Link>
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </div>

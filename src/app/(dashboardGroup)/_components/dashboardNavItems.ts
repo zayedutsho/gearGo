@@ -1,10 +1,4 @@
-import {
-  ClipboardList,
-  LayoutDashboard,
-  Package,
-  User,
-  Users,
-} from "lucide-react";
+import { ClipboardList, LayoutDashboard, Package, Users } from "lucide-react";
 
 export const dashboardNavItems = {
   CUSTOMER: [
@@ -17,11 +11,6 @@ export const dashboardNavItems = {
       title: "Rentals",
       href: "/dashboard/rentals",
       icon: ClipboardList,
-    },
-    {
-      title: "Profile",
-      href: "/dashboard/profile",
-      icon: User,
     },
   ],
 
@@ -40,11 +29,6 @@ export const dashboardNavItems = {
       title: "Orders",
       href: "/provider-dashboard/orders",
       icon: ClipboardList,
-    },
-    {
-      title: "Profile",
-      href: "/dashboard/profile",
-      icon: User,
     },
   ],
 

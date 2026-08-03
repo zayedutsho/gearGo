@@ -101,10 +101,15 @@ export async function proxy(request: NextRequest) {
   if (pathname.startsWith("/admin-dashboard") && decoded.role !== "ADMIN") {
     return NextResponse.redirect(new URL("/403", request.url));
   }
+
   if (
     pathname.startsWith("/provider-dashboard") &&
     decoded.role !== "PROVIDER"
   ) {
+    return NextResponse.redirect(new URL("/403", request.url));
+  }
+
+  if (pathname.startsWith("/dashboard") && decoded.role !== "CUSTOMER") {
     return NextResponse.redirect(new URL("/403", request.url));
   }
 
