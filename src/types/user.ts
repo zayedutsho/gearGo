@@ -1,5 +1,7 @@
 export type UserRole = "ADMIN" | "PROVIDER" | "CUSTOMER";
 
+export type UserStatus = "ACTIVE" | "INACTIVE" | "SUSPENDED";
+
 export interface IUser {
   id: string;
   name: string;
@@ -8,6 +10,7 @@ export interface IUser {
   role: UserRole;
   image?: string;
 }
+
 export interface UserProfile {
   id: string;
   avatar: string | null;
@@ -15,15 +18,14 @@ export interface UserProfile {
   address: string | null;
 }
 
-export interface User {
+export interface DUser {
   id: string;
   name: string;
   email: string;
   phone: string | null;
 
-  role: "ADMIN" | "PROVIDER" | "CUSTOMER";
-
-  status: "ACTIVE" | "INACTIVE" | "SUSPENDED";
+  role: UserRole;
+  status: UserStatus;
 
   createdAt: string;
   updatedAt: string;
