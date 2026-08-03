@@ -1,3 +1,12 @@
+export type OrderStatus =
+  | "PENDING"
+  | "CONFIRMED"
+  | "ACTIVE"
+  | "RETURNED"
+  | "CANCELLED";
+
+export type PaymentStatus = "PAID" | "UNPAID";
+
 export interface Gear {
   id: string;
   title: string;
@@ -26,11 +35,16 @@ export interface RentalOrder {
   startDate: string;
   endDate: string;
   totalAmount: number;
-  status: "PENDING" | "CONFIRMED" | "ACTIVE" | "COMPLETED" | "CANCELLED";
-  paymentStatus: "PAID" | "UNPAID";
+  status: OrderStatus;
+  paymentStatus: PaymentStatus;
   createdAt: string;
   updatedAt: string;
 
   customer: Customer;
   rentalItems: RentalItem[];
+}
+
+export interface UpdateOrderPayload {
+  orderId: string;
+  status: OrderStatus;
 }

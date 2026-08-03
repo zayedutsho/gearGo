@@ -4,19 +4,27 @@
 import { cookies } from "next/headers";
 
 import axiosInstance from "@/lib/axios";
-import { GearFormValues } from "@/schemas/gear.schema";
 
-export async function createGear(payload: GearFormValues) {
+type UpdateOrderPayload = {
+  orderId: string;
+  status: string;
+};
+
+export async function updateOrder({ orderId, status }: UpdateOrderPayload) {
   const cookieStore = await cookies();
 
   const accessToken = cookieStore.get("accessToken")?.value;
 
   try {
-    const { data } = await axiosInstance.post("/api/provider/gear", payload, {
-      headers: {
-        Cookie: `accessToken=${accessToken}`,
+    const { data } = await axiosInstance.patch(
+      `/api/provider/orders/${orderId}`,
+      { status },
+      {
+        headers: {
+          Cookie: `accessToken=${accessToken}`,
+        },
       },
-    });
+    );
 
     return {
       success: true,
@@ -26,8 +34,7 @@ export async function createGear(payload: GearFormValues) {
   } catch (error: any) {
     return {
       success: false,
-      status: error.response?.status,
-      message: error.response?.data?.message ?? "Failed to create gear.",
+      message: error.response?.data?.message ?? "Failed to update order.",
     };
   }
 }

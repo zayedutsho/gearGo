@@ -2,6 +2,8 @@
 
 import { format } from "date-fns";
 import { Eye } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -13,8 +15,17 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import { RentalOrder } from "@/types/order";
+
+import { useUpdateOrder } from "@/hooks/useUpdateOrder";
+import { OrderStatus, RentalOrder } from "@/types/order";
 
 import StatusBadge from "./StatusBadge";
 
@@ -23,8 +34,26 @@ type Props = {
 };
 
 export default function OrderDetailsDialog({ order }: Props) {
+  const [open, setOpen] = useState(false);
+  const [status, setStatus] = useState<OrderStatus>(order.status);
+
+  const { updateOrderAsync, isPending } = useUpdateOrder();
+
+  const handleSave = async () => {
+    const result = await updateOrderAsync({
+      orderId: order.id,
+      status,
+    });
+
+    if (result.success) {
+      setOpen(false);
+    } else {
+      toast.error(result.message);
+    }
+  };
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger
         render={(props) => (
           <Button {...props} variant="outline" size="icon">
@@ -36,18 +65,20 @@ export default function OrderDetailsDialog({ order }: Props) {
       <DialogContent className="max-w-3xl">
         <DialogHeader>
           <DialogTitle>Order Details</DialogTitle>
+
           <DialogDescription>Order #{order.id.slice(0, 8)}</DialogDescription>
         </DialogHeader>
 
         <div className="space-y-6">
           {/* Customer */}
           <section>
-            <h3 className="mb-3 text-sm font-semibold text-muted-foreground uppercase tracking-wide">
+            <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
               Customer Information
             </h3>
 
             <div className="rounded-xl border p-4">
-              <h4 className="font-semibold">{order.customer.name}</h4>
+              <p className="font-semibold">{order.customer.name}</p>
+
               <p className="text-sm text-muted-foreground">
                 {order.customer.email}
               </p>
@@ -58,7 +89,7 @@ export default function OrderDetailsDialog({ order }: Props) {
 
           {/* Rental Items */}
           <section>
-            <h3 className="mb-3 text-sm font-semibold text-muted-foreground uppercase tracking-wide">
+            <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
               Rental Items
             </h3>
 
@@ -94,7 +125,7 @@ export default function OrderDetailsDialog({ order }: Props) {
 
           {/* Summary */}
           <section>
-            <h3 className="mb-3 text-sm font-semibold text-muted-foreground uppercase tracking-wide">
+            <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
               Rental Summary
             </h3>
 
@@ -116,13 +147,32 @@ export default function OrderDetailsDialog({ order }: Props) {
               </div>
 
               <div>
-                <p className="text-xs text-muted-foreground">Rental Status</p>
+                <p className="mb-2 text-xs text-muted-foreground">
+                  Rental Status
+                </p>
 
-                <StatusBadge status={order.status} />
+                <Select
+                  value={status}
+                  onValueChange={(value) => setStatus(value as OrderStatus)}
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+
+                  <SelectContent>
+                    <SelectItem value="PENDING">Pending</SelectItem>
+                    <SelectItem value="CONFIRMED">Confirmed</SelectItem>
+                    <SelectItem value="ACTIVE">Active</SelectItem>
+                    <SelectItem value="RETURNED">Returned</SelectItem>
+                    <SelectItem value="CANCELLED">Cancelled</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
 
               <div>
-                <p className="text-xs text-muted-foreground">Payment Status</p>
+                <p className="mb-2 text-xs text-muted-foreground">
+                  Payment Status
+                </p>
 
                 <StatusBadge status={order.paymentStatus} />
               </div>
@@ -138,7 +188,14 @@ export default function OrderDetailsDialog({ order }: Props) {
           </section>
         </div>
 
-        <DialogFooter showCloseButton />
+        <DialogFooter showCloseButton={false}>
+          <Button
+            onClick={handleSave}
+            disabled={isPending || status === order.status}
+          >
+            {isPending ? "Saving..." : "Save Changes"}
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
