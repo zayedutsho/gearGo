@@ -12,9 +12,11 @@ import GearTableRow from "./GearTableRow";
 
 type Props = {
   gears: any[];
+  onEdit: (gear: any) => void;
+  onDelete: (gear: any) => void;
 };
 
-export default function GearTable({ gears }: Props) {
+export default function GearTable({ gears, onEdit, onDelete }: Props) {
   return (
     <div className="rounded-xl border bg-background">
       <Table>
@@ -31,7 +33,12 @@ export default function GearTable({ gears }: Props) {
 
         <TableBody>
           {gears.map((gear) => (
-            <GearTableRow key={gear.id} gear={gear} />
+            <GearTableRow
+              key={gear.id}
+              gear={gear}
+              onEdit={onEdit}
+              onDelete={onDelete}
+            />
           ))}
         </TableBody>
       </Table>

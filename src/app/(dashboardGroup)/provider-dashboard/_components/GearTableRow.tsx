@@ -6,11 +6,24 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { TableCell, TableRow } from "@/components/ui/table";
 
-type Props = {
-  gear: any;
+type Gear = {
+  id: string;
+  title: string;
+  description: string;
+  brand: string;
+  categoryId: string;
+  imageUrl: string;
+  pricePerDay: number;
+  stock: number;
 };
 
-export default function GearTableRow({ gear }: Props) {
+type Props = {
+  gear: Gear;
+  onEdit: (gear: Gear) => void;
+  onDelete: (gear: Gear) => void;
+};
+
+export default function GearTableRow({ gear, onEdit, onDelete }: Props) {
   return (
     <TableRow>
       <TableCell>
@@ -34,11 +47,23 @@ export default function GearTableRow({ gear }: Props) {
 
       <TableCell>
         <div className="flex justify-end gap-2">
-          <Button variant="outline" size="icon">
+          {}
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => {
+              console.log(gear);
+              onEdit(gear);
+            }}
+          >
             <Pencil className="h-4 w-4" />
           </Button>
 
-          <Button variant="destructive" size="icon">
+          <Button
+            variant="destructive"
+            size="icon"
+            onClick={() => onDelete(gear)}
+          >
             <Trash2 className="h-4 w-4" />
           </Button>
         </div>

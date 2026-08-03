@@ -10,7 +10,7 @@ export async function getGear() {
   const accessToken = cookieStore.get("accessToken")?.value;
 
   try {
-    const { data } = await axiosInstance.get("/api/gear", {
+    const { data } = await axiosInstance.get("/api/provider/gears", {
       headers: {
         Cookie: `accessToken=${accessToken}`,
       },
