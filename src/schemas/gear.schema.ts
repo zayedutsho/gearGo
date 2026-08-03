@@ -16,4 +16,4 @@ export const gearSchema = z.object({
   stock: z.coerce.number().int().min(1),
 });
 
-export type GearFormValues = z.infer<typeof gearSchema>;
+export type GearFormValues = z.input<typeof gearSchema>;

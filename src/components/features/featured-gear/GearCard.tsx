@@ -50,7 +50,7 @@ export default function GearCard({ gear }: Props) {
             <span className="text-muted-foreground"> / day</span>
           </div>
 
-          <Button asChild className="rounded-xl bg-[#123524]">
+          <Button className="rounded-xl bg-[#123524]">
             <Link href={`/gear/${gear.id}`}>Rent Now</Link>
           </Button>
         </div>

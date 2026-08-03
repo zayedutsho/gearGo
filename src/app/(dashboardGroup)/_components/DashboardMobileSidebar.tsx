@@ -45,7 +45,7 @@ export default function DashboardMobileSidebar({ user }: Props) {
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger asChild>
+      <SheetTrigger>
         <Button variant="ghost" size="icon">
           <Menu className="h-6 w-6" />
         </Button>

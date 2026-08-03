@@ -21,7 +21,7 @@ export default function GearSort() {
         : "price-high"
       : "newest";
 
-  const handleChange = (value: string) => {
+  const handleChange = (value: string | null) => {
     const params = new URLSearchParams(searchParams.toString());
 
     switch (value) {

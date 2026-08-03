@@ -2,13 +2,13 @@ import { format } from "date-fns";
 
 import { TableCell, TableRow } from "@/components/ui/table";
 
-import { IUser } from "@/types/user";
+import { User } from "@/types/user";
 
 import UserDetailsDialog from "./UserDetailsDialog";
 import UserStatusBadge from "./UserStatusBadge";
 
 type Props = {
-  user: IUser;
+  user: User;
 };
 
 export default function UserTableRow({ user }: Props) {

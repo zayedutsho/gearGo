@@ -1,16 +1,17 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 import { useCreateGear } from "@/hooks/useCreateGear";
 import { useUpdateGear } from "@/hooks/useUpdateGear";
-import { GearFormValues, gearSchema } from "@/schemas/gear.schema";
-import { Controller } from "react-hook-form";
+import { useEffect } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { z } from "zod";
+
+import { gearSchema } from "@/schemas/gear.schema";
 
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import {
@@ -45,7 +46,11 @@ export default function GearForm({ mode, gear, onSuccess }: Props) {
   const createMutation = useCreateGear();
   const updateMutation = useUpdateGear();
 
-  const form = useForm<GearFormValues>({
+  const form = useForm<
+    z.input<typeof gearSchema>,
+    unknown,
+    z.output<typeof gearSchema>
+  >({
     resolver: zodResolver(gearSchema),
     defaultValues: {
       title: "",
@@ -82,7 +87,7 @@ export default function GearForm({ mode, gear, onSuccess }: Props) {
     }
   }, [gear, mode, form]);
 
-  const onSubmit = async (values: GearFormValues) => {
+  const onSubmit = async (values: z.output<typeof gearSchema>) => {
     if (mode === "create") {
       const result = await createMutation.mutateAsync(values);
 
@@ -221,7 +226,7 @@ export default function GearForm({ mode, gear, onSuccess }: Props) {
               <Input
                 type="number"
                 min={0}
-                value={field.value}
+                value={Number(field.value ?? 0)}
                 onChange={(e) => field.onChange(Number(e.target.value))}
                 aria-invalid={fieldState.invalid}
               />
@@ -241,7 +246,7 @@ export default function GearForm({ mode, gear, onSuccess }: Props) {
               <Input
                 type="number"
                 min={0}
-                value={field.value}
+                value={Number(field.value ?? 1)}
                 onChange={(e) => field.onChange(Number(e.target.value))}
                 aria-invalid={fieldState.invalid}
               />

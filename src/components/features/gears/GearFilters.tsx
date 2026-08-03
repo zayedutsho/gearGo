@@ -41,7 +41,7 @@ export default async function GearFilters({ selectedCategory }: Props) {
             >
               <span>{category.name}</span>
 
-              <span>{category.gearCount}</span>
+              <span>{category._count.gearItems}</span>
             </Link>
           ))}
         </div>

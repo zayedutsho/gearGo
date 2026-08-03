@@ -4,7 +4,7 @@ import DashboardStatCard from "@/components/dashboard/DashboardStatCard";
 
 import { getRentals } from "@/services/admin/getRentals";
 import { getUsers } from "@/services/admin/getUsers";
-import { DUser } from "@/types/user";
+import { IUser } from "@/types/user";
 
 export default async function AdminDashboardPage() {
   const [usersResult, rentalsResult] = await Promise.all([
@@ -12,8 +12,8 @@ export default async function AdminDashboardPage() {
     getRentals(),
   ]);
 
-  const users: DUser[] = usersResult.data ?? [];
-  const rentals: DUser[] = rentalsResult.data ?? [];
+  const users: IUser[] = usersResult.data ?? [];
+  const rentals: IUser[] = rentalsResult.data ?? [];
   console.log(users.length, rentals.length);
 
   const totalUsers = users.length;

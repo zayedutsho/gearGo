@@ -3,11 +3,11 @@ import { IUser } from "./user";
 export type OrderStatus =
   | "PLACED"
   | "CONFIRMED"
-  | "ACTIVE"
+  | "PICKED_UP"
   | "RETURNED"
   | "CANCELLED";
 
-export type PaymentStatus = "PAID" | "PENDING";
+export type PaymentStatus = "PENDING" | "PAID" | "FAILED";
 
 export interface Gear {
   id: string;
@@ -29,7 +29,7 @@ export interface Payment {
   rentalOrderId: string;
   transactionId: string | null;
   amount: number;
-  paymentProvider: "STRIPE";
+  paymentProvider: "STRIPE" | "SSLCOMMERZ";
   status: PaymentStatus;
   paidAt: string | null;
   createdAt: string;

@@ -24,10 +24,10 @@ import {
 import { Separator } from "@/components/ui/separator";
 
 import { useUpdateUser } from "@/hooks/useUpdateUser";
-import { IUser, UserStatus } from "@/types/user";
+import { User, UserStatus } from "@/types/user";
 
 type Props = {
-  user: IUser;
+  user: User;
 };
 
 export default function UserDetailsDialog({ user }: Props) {
