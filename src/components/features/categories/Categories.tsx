@@ -1,3 +1,5 @@
+import SectionHeading from "@/components/shared/section/SectionHeading";
+
 import { getCategories } from "@/services/getCategories";
 import CategoryCard from "./CategoryCard";
 
@@ -9,34 +11,29 @@ export default async function Categories() {
   const categories = result.data.data;
 
   return (
-    <section className="py-20">
+    <section id="categories" className="scroll-mt-24 py-20 lg:py-28">
       <div className="mx-auto max-w-[1440px] px-6 lg:px-10">
-        {/* Heading */}
-        <div className="mx-auto mb-14 max-w-3xl text-center">
-          <span className="text-sm font-semibold uppercase tracking-widest text-[#123524]">
-            Top Categories
-          </span>
-
-          <h2 className="mt-3 text-4xl font-bold tracking-tight">
-            Find the gear for every adventure
-          </h2>
-
-          <p className="mt-4 text-lg text-muted-foreground">
-            Explore premium outdoor equipment from trusted providers.
-          </p>
-        </div>
+        <SectionHeading
+          className="mb-14"
+          eyebrow="Top Categories"
+          title="Find the gear for every adventure"
+          description="Explore premium outdoor equipment from trusted providers."
+        />
 
         {/* Desktop Grid */}
-        <div className="hidden gap-6 md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+        <div className="hidden gap-6 md:grid md:grid-cols-2 lg:grid-cols-3">
           {categories.map((category) => (
             <CategoryCard key={category.id} category={category} />
           ))}
         </div>
 
         {/* Mobile Scroll */}
-        <div className="-mx-6 flex gap-5 overflow-x-auto px-6 md:hidden">
+        <div className="-mx-6 flex snap-x snap-mandatory gap-5 overflow-x-auto px-6 pb-2 md:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {categories.map((category) => (
-            <div key={category.id} className="min-w-[280px]">
+            <div
+              key={category.id}
+              className="min-w-[280px] snap-start first:pl-0"
+            >
               <CategoryCard category={category} />
             </div>
           ))}

@@ -29,6 +29,19 @@
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
   --radius: 0.625rem;
+
+  /* Brand palette — single source of truth for the GearGo forest green.
+     `brand` fills solid surfaces, `brand-ink` is the accent used for text. */
+  --brand: #123524;
+  --brand-hover: #184a35;
+  --brand-foreground: #ffffff;
+  --brand-ink: #123524;
+  --brand-accent: #6ee7b7;
+  --surface: #f8faf8;
+
+  /* Geist is loaded on <html> as --font-geist-sans; wire it into the sans stack. */
+  --font-sans: var(--font-geist-sans);
+
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
   --sidebar-primary: oklch(0.205 0 0);
@@ -58,6 +71,15 @@
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.556 0 0);
+
+  /* Brand stays forest, but the accent ink lifts to mint so it stays legible. */
+  --brand: #1a4a34;
+  --brand-hover: #205a3f;
+  --brand-foreground: #ffffff;
+  --brand-ink: #6ee7b7;
+  --brand-accent: #6ee7b7;
+  --surface: oklch(0.19 0.012 160);
+
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
@@ -103,6 +125,12 @@
   --color-secondary: var(--secondary);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary: var(--primary);
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-brand-foreground: var(--brand-foreground);
+  --color-brand-ink: var(--brand-ink);
+  --color-brand-accent: var(--brand-accent);
+  --color-surface: var(--surface);
   --color-popover-foreground: var(--popover-foreground);
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
@@ -125,5 +153,76 @@
   }
   html {
     @apply font-sans;
+  }
+  /* In-page anchors (e.g. hero → #categories) glide instead of jumping */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Landing page background motifs.
+   A topographic contour + dot grid pairing that reads as "outdoor map" and
+   keeps every tinted section visually related.
+   --------------------------------------------------------------------------- */
+@layer utilities {
+  .bg-grid-dots {
+    background-image: radial-gradient(
+      color-mix(in oklab, var(--brand) 14%, transparent) 1px,
+      transparent 1px
+    );
+    background-size: 22px 22px;
+  }
+
+  .bg-contour {
+    background-image: repeating-radial-gradient(
+      circle at 88% 12%,
+      color-mix(in oklab, var(--brand) 10%, transparent) 0 1px,
+      transparent 1px 44px
+    );
+  }
+
+  .bg-contour-invert {
+    background-image: repeating-radial-gradient(
+      circle at 88% 12%,
+      rgb(255 255 255 / 7%) 0 1px,
+      transparent 1px 44px
+    );
+  }
+
+  .bg-brand-mesh {
+    background-image:
+      radial-gradient(
+        58% 58% at 10% 4%,
+        color-mix(in oklab, var(--brand) 13%, transparent) 0%,
+        transparent 62%
+      ),
+      radial-gradient(
+        46% 46% at 94% 16%,
+        color-mix(in oklab, var(--brand-accent) 30%, transparent) 0%,
+        transparent 64%
+      ),
+      radial-gradient(
+        70% 70% at 52% 112%,
+        color-mix(in oklab, var(--brand) 9%, transparent) 0%,
+        transparent 60%
+      );
+  }
+
+  .mask-fade-b {
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      #000 0%,
+      #000 45%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      #000 0%,
+      #000 45%,
+      transparent 100%
+    );
   }
 }

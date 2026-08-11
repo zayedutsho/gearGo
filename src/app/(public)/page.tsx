@@ -12,8 +12,8 @@ export default function Page() {
       <Categories />
       <FeaturedGear />
       <HowItWorks />
-      <WhyUs></WhyUs>
-      <Footer></Footer>
+      <WhyUs />
+      <Footer />
     </>
   );
 }

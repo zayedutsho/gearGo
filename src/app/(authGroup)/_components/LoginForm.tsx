@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect } from "react";
+import { useActionState, useEffect, useRef } from "react";
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -8,6 +8,8 @@ import { useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 
 import { loginAction } from "../_action/login";
+
+import DemoCredentials, { DEMO_PASSWORD } from "./DemoCredentials";
 
 import { Button } from "@/components/ui/button";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
@@ -17,6 +19,8 @@ import { LockKeyhole, Mail, Tent } from "lucide-react";
 export default function LoginForm() {
   const searchParams = useSearchParams();
   const redirectTo = searchParams.get("redirectTo") ?? "";
+
+  const formRef = useRef<HTMLFormElement>(null);
 
   const [state, action, pending] = useActionState(
     loginAction.bind(null, redirectTo),
@@ -32,6 +36,24 @@ export default function LoginForm() {
       toast.error(state.message || "Something went wrong");
     }
   }, [state]);
+
+  // Writes straight to the uncontrolled inputs so the form stays untouched.
+  const fillDemoAccount = (email: string) => {
+    const form = formRef.current;
+
+    if (!form) return;
+
+    const emailField = form.elements.namedItem("email");
+    const passwordField = form.elements.namedItem("password");
+
+    if (emailField instanceof HTMLInputElement) {
+      emailField.value = email;
+    }
+
+    if (passwordField instanceof HTMLInputElement) {
+      passwordField.value = DEMO_PASSWORD;
+    }
+  };
 
   return (
     <div className="w-full max-w-md">
@@ -52,7 +74,7 @@ export default function LoginForm() {
       </div>
 
       {/* Form */}
-      <form action={action}>
+      <form ref={formRef} action={action}>
         <FieldGroup className="mt-10 space-y-6">
           {/* Email */}
           <Field>
@@ -83,6 +105,8 @@ export default function LoginForm() {
             </div>
           </Field>
         </FieldGroup>
+
+        <DemoCredentials onSelect={fillDemoAccount} />
 
         <Button
           type="submit"

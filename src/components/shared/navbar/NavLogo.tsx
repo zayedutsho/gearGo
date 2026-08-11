@@ -9,7 +9,7 @@ export default function NavLogo() {
       </div>
 
       <div className="flex flex-col">
-        <span className="text-xl font-bold tracking-tight">GearUp</span>
+        <span className="text-xl font-bold tracking-tight">GearGo</span>
 
         <span className="text-xs text-muted-foreground">
           Adventure Starts Here
