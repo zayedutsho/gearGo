@@ -32,7 +32,7 @@ export default function DemoCredentials({ onSelect }: Props) {
       </div>
 
       <p className="mt-2 text-xs leading-5 text-slate-500">
-        Pick a role to fill the form instantly, then press Continue.
+        Pick a role to fill the form instantly, then select Sign in.
       </p>
 
       <div className="mt-4 grid gap-2 sm:grid-cols-3">

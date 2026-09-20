@@ -72,6 +72,9 @@ export default async function GearPage({ searchParams }: Props) {
           <GearFilters selectedCategory={params.categoryId} />
 
           <div className="space-y-10">
+            <h2 className="text-lg font-semibold">
+              {result.meta.total} {result.meta.total === 1 ? "item" : "items"} found
+            </h2>
             <GearGrid gears={result.data} />
 
             <GearPagination

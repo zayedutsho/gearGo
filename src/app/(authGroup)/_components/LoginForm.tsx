@@ -113,7 +113,7 @@ export default function LoginForm() {
           disabled={pending}
           className="mt-8 h-14 w-full rounded-2xl bg-[#123524] text-base font-semibold transition-all duration-200 hover:bg-[#1A4D3A] hover:shadow-lg disabled:pointer-events-none disabled:opacity-60"
         >
-          {pending ? "Signing in..." : "Continue"}
+          {pending ? "Signing in..." : "Sign in"}
         </Button>
       </form>
 

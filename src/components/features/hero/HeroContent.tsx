@@ -46,12 +46,12 @@ export default function HeroContent() {
 
       <div className="flex flex-wrap gap-4">
         <LinkButton href="/gears" size="lg" className="gap-2">
-          Browse Gear
+          Browse All Gear
           <ArrowRight className="size-5" />
         </LinkButton>
 
         <LinkButton href="#categories" tone="outline" size="lg">
-          Explore Categories
+          Browse by Category
         </LinkButton>
       </div>
     </div>
