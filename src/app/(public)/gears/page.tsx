@@ -1,8 +1,7 @@
 import GearFilters from "@/components/features/gears/GearFilters";
 import GearGrid from "@/components/features/gears/GearGrid";
 import GearPagination from "@/components/features/gears/GearPagination";
-import GearSearch from "@/components/features/gears/GearSearch";
-import GearSort from "@/components/features/gears/GearSort";
+import GearToolbar from "@/components/features/gears/GearToolbar";
 
 import { getGears } from "@/services/gear/getGears";
 
@@ -46,7 +45,7 @@ export default async function GearPage({ searchParams }: Props) {
       <div className="mx-auto max-w-[1440px] px-6 lg:px-10">
         {/* Header */}
         <div className="mb-10">
-          <span className="text-sm font-semibold uppercase tracking-widest text-[#123524]">
+          <span className="text-sm font-semibold uppercase tracking-widest text-brand-ink">
             Marketplace
           </span>
 
@@ -54,24 +53,20 @@ export default async function GearPage({ searchParams }: Props) {
             Explore Outdoor Gear
           </h1>
 
-          <p className="mt-3 max-w-2xl text-muted-foreground">
+          <p className="mt-3 max-w-2xl leading-7 text-muted-foreground">
             Discover premium camping, hiking, cycling and outdoor equipment from
             trusted providers.
           </p>
         </div>
 
         {/* Toolbar */}
-        <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-          <GearSearch />
-
-          <GearSort />
-        </div>
+        <GearToolbar />
 
         {/* Content */}
         <div className="grid gap-8 lg:grid-cols-[280px_1fr]">
           <GearFilters selectedCategory={params.categoryId} />
 
-          <div className="space-y-10">
+          <div className="min-w-0 space-y-6">
             <h2 className="text-lg font-semibold">
               {result.meta.total} {result.meta.total === 1 ? "item" : "items"} found
             </h2>

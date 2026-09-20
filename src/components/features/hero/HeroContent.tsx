@@ -4,7 +4,7 @@ import LinkButton from "@/components/shared/link-button/LinkButton";
 
 export default function HeroContent() {
   return (
-    <div className="space-y-9">
+    <div className="space-y-8">
       {/* Eyebrow */}
       <span className="inline-flex items-center gap-2 rounded-full border border-brand-ink/15 bg-brand-ink/5 py-1.5 pl-2 pr-4 text-sm font-medium text-brand-ink">
         <span className="inline-flex items-center gap-1 rounded-full bg-brand px-2.5 py-1 text-xs font-semibold text-brand-foreground">
@@ -14,7 +14,7 @@ export default function HeroContent() {
         Trusted by 10K+ adventurers
       </span>
 
-      <div className="space-y-6">
+      <div className="space-y-5">
         <h1 className="max-w-xl text-pretty text-[2.75rem] font-extrabold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
           Gear Go.
           <br />

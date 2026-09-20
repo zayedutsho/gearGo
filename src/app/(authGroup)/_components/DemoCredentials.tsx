@@ -20,18 +20,18 @@ type Props = {
  */
 export default function DemoCredentials({ onSelect }: Props) {
   return (
-    <div className="mt-8 rounded-2xl border border-[#123524]/15 bg-[#123524]/[0.04] p-5">
+    <div className="mt-8 rounded-2xl border border-brand-ink/15 bg-brand-ink/5 p-5">
       <div className="flex flex-wrap items-center gap-2">
-        <KeyRound className="h-4 w-4 text-[#123524]" />
+        <KeyRound className="h-4 w-4 text-brand-ink" />
 
-        <p className="text-sm font-semibold text-[#123524]">Demo accounts</p>
+        <p className="text-sm font-semibold text-brand-ink">Demo accounts</p>
 
-        <span className="ml-auto rounded-full bg-white px-2.5 py-1 font-mono text-xs text-slate-600 ring-1 ring-slate-200">
+        <span className="ml-auto rounded-full bg-card px-2.5 py-1 font-mono text-xs text-muted-foreground ring-1 ring-border">
           {DEMO_PASSWORD}
         </span>
       </div>
 
-      <p className="mt-2 text-xs leading-5 text-slate-500">
+      <p className="mt-2 text-xs leading-5 text-muted-foreground">
         Pick a role to fill the form instantly, then select Sign in.
       </p>
 
@@ -44,14 +44,14 @@ export default function DemoCredentials({ onSelect }: Props) {
               key={account.email}
               type="button"
               onClick={() => onSelect(account.email)}
-              className="flex flex-col gap-1 rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-left outline-none transition hover:border-[#123524]/30 hover:shadow-sm focus-visible:ring-3 focus-visible:ring-ring/50"
+              className="flex flex-col gap-1 rounded-xl border border-border bg-card px-3 py-2.5 text-left outline-none transition hover:border-brand-ink/30 hover:shadow-sm focus-visible:ring-3 focus-visible:ring-ring/50"
             >
-              <span className="flex items-center gap-1.5 text-sm font-semibold text-slate-900">
-                <Icon className="h-3.5 w-3.5 text-[#123524]" />
+              <span className="flex items-center gap-1.5 text-sm font-semibold text-foreground">
+                <Icon className="h-3.5 w-3.5 text-brand-ink" />
                 {account.role}
               </span>
 
-              <span className="truncate text-xs text-slate-500">
+              <span className="truncate text-xs text-muted-foreground">
                 {account.email}
               </span>
             </button>

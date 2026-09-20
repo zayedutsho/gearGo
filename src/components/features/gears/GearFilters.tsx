@@ -13,7 +13,7 @@ export default async function GearFilters({ selectedCategory }: Props) {
   const categories = result.data.data;
 
   return (
-    <aside className="sticky top-24 h-fit rounded-3xl border bg-white p-6 shadow-sm">
+    <aside className="sticky top-24 h-fit rounded-3xl border bg-card p-6 shadow-sm">
       <h3 className="mb-6 text-lg font-semibold">Filters</h3>
 
       <div>
@@ -23,7 +23,7 @@ export default async function GearFilters({ selectedCategory }: Props) {
           <Link
             href="/gears"
             className={`flex items-center justify-between rounded-xl px-3 py-2 text-sm transition ${
-              !selectedCategory ? "bg-[#123524] text-white" : "hover:bg-muted"
+              !selectedCategory ? "bg-brand text-brand-foreground" : "hover:bg-muted"
             }`}
           >
             <span>All Categories</span>
@@ -35,7 +35,7 @@ export default async function GearFilters({ selectedCategory }: Props) {
               href={`/gears?categoryId=${category.id}`}
               className={`flex items-center justify-between rounded-xl px-3 py-2 text-sm transition ${
                 selectedCategory === category.id
-                  ? "bg-[#123524] text-white"
+                  ? "bg-brand text-brand-foreground"
                   : "hover:bg-muted"
               }`}
             >

@@ -58,7 +58,7 @@ export default function LoginForm() {
   return (
     <div className="w-full max-w-md">
       {/* Logo */}
-      <Link href="/" className="mb-14 inline-flex items-center gap-3">
+      <Link href="/" className="mb-8 inline-flex items-center gap-3">
         <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-100">
           <Tent className="h-5 w-5 text-emerald-700" />
         </div>
@@ -75,16 +75,16 @@ export default function LoginForm() {
 
       {/* Form */}
       <form ref={formRef} action={action}>
-        <FieldGroup className="mt-10 space-y-6">
+        <FieldGroup className="mt-8 gap-6">
           {/* Email */}
           <Field>
             <FieldLabel>Email</FieldLabel>
             <div className="relative mt-2">
-              <Mail className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
+              <Mail className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
               <Input
                 name="email"
                 placeholder="john@example.com"
-                className="h-14 rounded-2xl border-slate-200 bg-slate-50 pl-12 transition-all focus-visible:bg-white"
+                className="h-14 rounded-2xl border-input bg-muted/40 pl-12 transition-all focus-visible:bg-background"
               />
             </div>
           </Field>
@@ -95,12 +95,12 @@ export default function LoginForm() {
               <FieldLabel>Password</FieldLabel>
             </div>
             <div className="relative mt-2">
-              <LockKeyhole className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
+              <LockKeyhole className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
               <Input
                 type="password"
                 name="password"
                 placeholder="••••••••"
-                className="h-14 rounded-2xl border-slate-200 bg-slate-50 pl-12 transition-all focus-visible:bg-white"
+                className="h-14 rounded-2xl border-input bg-muted/40 pl-12 transition-all focus-visible:bg-background"
               />
             </div>
           </Field>
@@ -111,15 +111,15 @@ export default function LoginForm() {
         <Button
           type="submit"
           disabled={pending}
-          className="mt-8 h-14 w-full rounded-2xl bg-[#123524] text-base font-semibold transition-all duration-200 hover:bg-[#1A4D3A] hover:shadow-lg disabled:pointer-events-none disabled:opacity-60"
+          className="mt-8 h-14 w-full rounded-2xl bg-brand text-base font-semibold text-brand-foreground transition-all duration-200 hover:bg-brand-hover hover:shadow-lg disabled:pointer-events-none disabled:opacity-60"
         >
           {pending ? "Signing in..." : "Sign in"}
         </Button>
       </form>
 
-      <p className="mt-10 text-center text-sm text-slate-500">
+      <p className="mt-8 text-center text-sm text-muted-foreground">
         New to GearUp?{" "}
-        <Link href="/register" className="font-semibold text-[#123524]">
+        <Link href="/register" className="font-semibold text-brand-ink">
           Create an account →
         </Link>
       </p>
