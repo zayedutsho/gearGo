@@ -17,7 +17,7 @@ export default function GearPagination({ page, total, limit }: Props) {
   if (totalPages <= 1) return null;
 
   return (
-    <div className="mt-10 flex justify-center gap-2">
+    <nav aria-label="Gear results pages" className="mt-8 flex flex-wrap justify-center gap-2">
       {Array.from({ length: totalPages }).map((_, index) => {
         const current = index + 1;
 
@@ -27,17 +27,19 @@ export default function GearPagination({ page, total, limit }: Props) {
         return (
           <Link
             key={current}
+            aria-label={`Page ${current}`}
+            aria-current={page === current ? "page" : undefined}
             href={`/gears?${params.toString()}`}
-            className={`flex h-11 w-11 items-center justify-center rounded-xl border transition ${
+            className={`flex h-11 min-w-11 shrink-0 px-3 items-center justify-center rounded-xl border transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-ink active:translate-y-px ${
               page === current
-                ? "bg-[#123524] text-white"
-                : "bg-white hover:bg-muted"
+                ? "bg-brand text-brand-foreground"
+                : "bg-card hover:bg-muted"
             }`}
           >
             {current}
           </Link>
         );
       })}
-    </div>
+    </nav>
   );
 }

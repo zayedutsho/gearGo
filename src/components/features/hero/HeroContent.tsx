@@ -8,14 +8,14 @@ export default function HeroContent() {
       {/* Eyebrow */}
       <span className="inline-flex items-center gap-2 rounded-full border border-brand-ink/15 bg-brand-ink/5 py-1.5 pl-2 pr-4 text-sm font-medium text-brand-ink">
         <span className="inline-flex items-center gap-1 rounded-full bg-brand px-2.5 py-1 text-xs font-semibold text-brand-foreground">
-          <Star className="size-3 fill-current" />
+          <Star aria-hidden className="size-3 fill-current" />
           4.8
         </span>
         Trusted by 10K+ adventurers
       </span>
 
       <div className="space-y-5">
-        <h1 className="max-w-xl text-pretty text-[2.75rem] font-extrabold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
+        <h1 className="max-w-xl text-pretty text-4xl min-[375px]:text-[2.75rem] font-extrabold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
           Gear Go.
           <br />
           <span className="relative inline-block text-brand-ink">
@@ -44,10 +44,10 @@ export default function HeroContent() {
         </p>
       </div>
 
-      <div className="flex flex-wrap gap-4">
+      <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4">
         <LinkButton href="/gears" size="lg" className="gap-2">
           Browse All Gear
-          <ArrowRight className="size-5" />
+          <ArrowRight aria-hidden className="size-5" />
         </LinkButton>
 
         <LinkButton href="#categories" tone="outline" size="lg">

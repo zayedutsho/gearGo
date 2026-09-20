@@ -33,15 +33,22 @@ export default function GearSearch() {
   };
 
   return (
-    <div className="relative w-full">
-      <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
+    <div className="w-full min-w-0">
+      <label htmlFor="gear-search" className="mb-2 block text-sm font-medium">
+        Search gear
+      </label>
+      <div className="relative">
+        <Search aria-hidden className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
 
-      <Input
-        value={value}
-        onChange={(e) => handleChange(e.target.value)}
-        placeholder="Search gears..."
-        className="h-12 rounded-xl pl-12"
-      />
+        <Input
+          id="gear-search"
+          type="search"
+          value={value}
+          onChange={(e) => handleChange(e.target.value)}
+          placeholder="Search by gear name..."
+          className="h-12 rounded-xl pl-12"
+        />
+      </div>
     </div>
   );
 }

@@ -16,8 +16,8 @@ export default function Hero() {
         className="pointer-events-none absolute inset-0 bg-contour opacity-70"
       />
 
-      <div className="relative mx-auto max-w-[1440px] px-6 py-14 lg:px-10 lg:py-24">
-        <div className="grid items-center gap-14 lg:grid-cols-2 lg:gap-16">
+      <div className="relative mx-auto max-w-[1440px] px-4 py-10 sm:px-6 sm:py-14 lg:px-10 lg:py-24">
+        <div className="grid items-center gap-10 sm:gap-14 lg:grid-cols-2 lg:gap-16">
           <HeroContent />
 
           <HeroImage />

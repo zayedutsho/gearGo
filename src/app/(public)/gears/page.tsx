@@ -41,15 +41,15 @@ export default async function GearPage({ searchParams }: Props) {
   console.log(result.meta);
 
   return (
-    <main className="bg-muted/30 py-12">
-      <div className="mx-auto max-w-[1440px] px-6 lg:px-10">
+    <main className="bg-muted/30 py-8 sm:py-12">
+      <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-10">
         {/* Header */}
         <div className="mb-10">
           <span className="text-sm font-semibold uppercase tracking-widest text-brand-ink">
             Marketplace
           </span>
 
-          <h1 className="mt-2 text-4xl font-bold tracking-tight">
+          <h1 className="mt-2 text-3xl sm:text-4xl font-bold tracking-tight">
             Explore Outdoor Gear
           </h1>
 

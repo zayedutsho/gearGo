@@ -12,7 +12,7 @@ export default function HeroImage() {
         className="pointer-events-none absolute -bottom-5 -right-5 hidden size-full rounded-[36px] border border-brand-ink/15 lg:block"
       />
 
-      <div className="relative h-[420px] overflow-hidden rounded-[32px] shadow-2xl shadow-brand/25 ring-1 ring-black/5 lg:h-[600px]">
+      <div className="relative h-[300px] sm:h-[420px] overflow-hidden rounded-[32px] shadow-2xl shadow-brand/25 ring-1 ring-black/5 lg:h-[600px]">
         <Image
           src={Banner}
           alt="Outdoor Adventure"
@@ -26,7 +26,7 @@ export default function HeroImage() {
       </div>
 
       {/* Glass trust chip */}
-      <div className="absolute left-5 top-5 inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/15 px-3.5 py-2 text-sm font-medium text-white shadow-lg backdrop-blur-md">
+      <div className="absolute left-5 top-5 inline-flex items-center gap-2 rounded-full border border-white/25 bg-brand/90 px-3.5 py-2 text-sm font-medium text-white shadow-lg backdrop-blur-md">
         <ShieldCheck className="size-4" />
         Verified providers
       </div>

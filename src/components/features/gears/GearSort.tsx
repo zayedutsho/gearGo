@@ -46,18 +46,21 @@ export default function GearSort() {
   };
 
   return (
-    <Select value={value} onValueChange={handleChange}>
-      <SelectTrigger className="h-12 w-56 rounded-xl">
-        <SelectValue />
-      </SelectTrigger>
+    <div className="w-full sm:w-56 sm:shrink-0">
+      <span id="gear-sort-label" className="mb-2 block text-sm font-medium">Sort by</span>
+      <Select value={value} onValueChange={handleChange}>
+        <SelectTrigger aria-labelledby="gear-sort-label" className="h-12 w-full rounded-xl">
+          <SelectValue />
+        </SelectTrigger>
 
-      <SelectContent>
-        <SelectItem value="newest">Newest</SelectItem>
+        <SelectContent>
+          <SelectItem value="newest">Newest</SelectItem>
 
-        <SelectItem value="price-low">Price: Low to High</SelectItem>
+          <SelectItem value="price-low">Price: Low to High</SelectItem>
 
-        <SelectItem value="price-high">Price: High to Low</SelectItem>
-      </SelectContent>
-    </Select>
+          <SelectItem value="price-high">Price: High to Low</SelectItem>
+        </SelectContent>
+      </Select>
+    </div>
   );
 }
